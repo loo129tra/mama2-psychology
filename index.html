@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Чат с ботом</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #111;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .start-btn {
+      padding: 15px 30px;
+      font-size: 20px;
+      background: linear-gradient(45deg, gold, orange, red);
+      border: none;
+      border-radius: 10px;
+      color: black;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 0 10px gold;
+    }
+
+    .start-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px orange;
+    }
+
+    #chatContainer {
+      width: 90%;
+      max-width: 600px;
+      height: 500px;
+      margin-top: 20px;
+      display: none;
+      flex-direction: column;
+      background: linear-gradient(270deg, gold, red);
+      background-size: 400% 400%;
+      animation: gradientShift 5s ease infinite;
+      padding: 15px;
+      border-radius: 10px;
+      overflow-y: auto;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+    }
+
+    #inputContainer {
+      margin-top: 10px;
+      display: flex;
+      width: 100%;
+    }
+
+    #userInput {
+      flex-grow: 1;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+
+    #sendBtn {
+      padding: 10px 20px;
+      margin-left: 10px;
+      background-color: gold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="start-btn" id="startChat">Начать переписку</button>
+
+  <div id="chatContainer">
+    <div id="chatMessages"></div>
+    <div id="inputContainer">
+      <input type="text" id="userInput" placeholder="Напиши что-нибудь...">
+      <button id="sendBtn">Отправить</button>
+    </div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById('startChat');
+    const chatContainer = document.getElementById('chatContainer');
+    const chatMessages = document.getElementById('chatMessages');
+    const sendBtn = document.getElementById('sendBtn');
+    const userInput = document.getElementById('userInput');
+
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      chatContainer.style.display = 'flex';
+    });
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', e => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    function sendMessage() {
+      const text = userInput.value.trim();
+      if (text === '') return;
+
+      addMessage('Вы: ' + text);
+      userInput.value = '';
+
+      setTimeout(() => {
+        addMessage('Бот: ваня пошли в мм2 ыыы, стрелялки ыы, клянись');
+      }, 700);
+    }
+
+    function addMessage(text) {
+      const div = document.createElement('div');
+      div.className = 'message';
+      div.textContent = text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  </script>
+
+</body>
+</html>
